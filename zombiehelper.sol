@@ -11,28 +11,21 @@ contract ZombieHelper is ZombieFeeding {
     _;
   }
 
-  // 1. ここにwithdraw関数を作成するのだ
   function withdraw() external onlyOwner {
     owner.transfer(this.balance);
   }
 
-  // 2. ここにsetLevelUpFee関数を作成せよ
   function setLevelUpFee(uint _fee) external onlyOwner {
     levelUpFee = _fee;
   }
 
-  function levelUp(uint _zombieId) external payable {
-    require(msg.value == levelUpFee);
-    zombies[_zombieId].level++;
-  }
-
-  function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) {
-    require(msg.sender == zombieToOwner[_zombieId]);
+  // 1. この関数を`ownerOf`を使うように修正するのだ
+  function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) ownerOf(_zombieId) {
     zombies[_zombieId].name = _newName;
   }
 
-  function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) {
-    require(msg.sender == zombieToOwner[_zombieId]);
+  // 2. この関数も同じようにせよ
+  function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) ownerOf(_zombieId) {
     zombies[_zombieId].dna = _newDna;
   }
 
