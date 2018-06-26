@@ -19,5 +19,4 @@ contract ZombieHelper is ZombieFeeding {
     require(msg.sender == zombieToOwner[_zombieId]);
     zombies[_zombieId].dna = _newDna;
   }
-
 }
